@@ -25,6 +25,9 @@ const productos = [
     new Producto(24,"Sprite",2800,"./img/sprite.png"),
 
 ];
+
+
+
 const esMayor = localStorage.getItem("esMayor")
 if(!esMayor){
 Swal.fire({
@@ -46,6 +49,9 @@ Swal.fire({
     }
   });
 }
+
+
+
 const renderProductos = (productos) => {
     let contenidoHTML = "";
     productos.forEach(producto => {
@@ -67,6 +73,9 @@ const renderProductos = (productos) => {
 }
 
 renderProductos(productos);
+
+
+
 
 function agregarAlcarrito(id) {
     const producto = productos.find(item => item.id == id);
@@ -104,11 +113,17 @@ function agregarAlcarrito(id) {
     event.preventDefault();
 }
 
+
+
+
 function totalProductos(){
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
     const total = carrito.reduce((acc, item) => acc + item.cantidad, 0);
     document.getElementById("totalCarrito").innerHTML = total;
 }
+
+
+
 
 function renderCarrito() {
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -132,6 +147,9 @@ function renderCarrito() {
     agregarEventosEliminar();
 }
 
+
+
+
 function agregarEventosEliminar() {
     const botonesEliminar = document.querySelectorAll('button[id^="eliminar-"]');
     botonesEliminar.forEach(boton => {
@@ -141,6 +159,9 @@ function agregarEventosEliminar() {
         });
     });
 }
+
+
+
 
 function eliminarDelCarrito(id) {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -156,14 +177,23 @@ function eliminarDelCarrito(id) {
     });
 }
 
+
+
+
 document.addEventListener('DOMContentLoaded', () => {
     renderCarrito();
     totalProductos();
 });
 
+
+
+
     const formCliente = document.getElementById('form-cliente');
     formCliente.addEventListener('submit', (e) => {
         e.preventDefault();
+
+
+
 
         const nombreApellido = document.getElementById('nombreApellido').value;
         const dni = document.getElementById('dni').value;
@@ -190,19 +220,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+
+
+
     const botonComprar = document.querySelector('button.btn-success');
     botonComprar.addEventListener('click', () => {
         const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
         const cupon = new Cupon('DESCUENTO10', 0.1); 
 
+
+
+
         if (carrito.length === 0) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Carrito vacío',
-                text: 'No tenes productos en tu carrito.',
+                text: 'No tenés productos en tu carrito.',
             });
             return;
         }
+
+
+
 
         const cliente = JSON.parse(localStorage.getItem('cliente'));
         if (!cliente) {
@@ -217,6 +256,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             return;
         }
+
+
+
 
         const items = carrito.map(item => new ItemComprado(item.producto, item.cantidad));
         const carritoObj = new Carrito(items, cupon);

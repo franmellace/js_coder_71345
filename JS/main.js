@@ -28,9 +28,10 @@ const productos = [
 
 
 
-const esMayor = localStorage.getItem("esMayor")
-if(!esMayor){
-Swal.fire({
+const esMayor = localStorage.getItem("esMayor");
+
+if (!esMayor) {
+  Swal.fire({
     title: "IMPORTANTE!",
     text: "¿Sos mayor de 18 años?",
     icon: "warning",
@@ -38,83 +39,101 @@ Swal.fire({
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
     confirmButtonText: "Si",
-    cancelButtonText:"No",
+    cancelButtonText: "No",
     allowOutsideClick: false,
-  }).then((result) => { console.log (result)
+  }).then((result) => {
+    console.log(result);
     if (!result.isConfirmed) {
-      window.location.href = "https://www.google.com"
-    }
-    else{
-        localStorage.setItem("esMayor", "T")
+      window.location.href = "https://www.google.com";
+    } else {
+      localStorage.setItem("esMayor", "T");
     }
   });
 }
 
 
 
+
 const renderProductos = (productos) => {
     let contenidoHTML = "";
+    
     productos.forEach(producto => {
-        contenidoHTML += `
+      contenidoHTML += `
         <div class="col-md-3">
-        <form>
-        <div class="card border-0">
-        <img src="${producto.img}" class="card-img-top" alt="${producto.nombre}">
-        <div class="card-body">
-            <p class="card-text text-primary "><b>$ ${producto.precio}</b><br><span class="card-text text-secondary">${producto.nombre}</span></p>
-        <input id="carrito-cantidad-${producto.id}" name="carrito-cantidad" min="1" class="form-control form-control-md col d-inline p-2" type="number" placeholder="Seleccione Cantidad" aria-label=".form-control-lg example">
+          <form>
+            <div class="card border-0">
+              <img src="${producto.img}" class="card-img-top" alt="${producto.nombre}">
+              <div class="card-body">
+                <p class="card-text text-primary">
+                  <b>$ ${producto.precio}</b><br>
+                  <span class="card-text text-secondary">${producto.nombre}</span>
+                </p>
+                <input 
+                  id="carrito-cantidad-${producto.id}" 
+                  name="carrito-cantidad" 
+                  min="1" 
+                  class="form-control form-control-md col d-inline p-2" 
+                  type="number" 
+                  placeholder="Seleccione Cantidad" 
+                  aria-label=".form-control-lg example">
+              </div>
+              <button 
+                onclick="agregarAlcarrito(${producto.id})" 
+                type="submit" 
+                class="btn btn-dark rounded-pill">
+                Agregar Producto
+              </button>
             </div>
-        <button onclick="agregarAlcarrito(${producto.id})" type="submit" class="btn btn-dark rounded-pill">Agregar Producto</button>
-        </div>
-        </form>
+          </form>
         </div>`;
-    })
+    });
+  
     document.getElementById("resultado").innerHTML = contenidoHTML;
-}
+  }
+  
+  renderProductos(productos);
+  
 
-renderProductos(productos);
 
 
-
-
-function agregarAlcarrito(id) {
+  function agregarAlcarrito(id) {
     const producto = productos.find(item => item.id == id);
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
     const cantidad = parseInt(document.getElementById(`carrito-cantidad-${id}`).value);
-
+  
     if (isNaN(cantidad) || cantidad <= 0) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Cantidad Invalida',
-            text: 'Seleccione la cantidad de productos que desea agregar al carrito.',
-        });
-        event.preventDefault()
-        return;
-        
+      Swal.fire({
+        icon: 'error',
+        title: 'Cantidad Inválida',
+        text: 'Seleccione la cantidad de productos que desea agregar al carrito.',
+      });
+      event.preventDefault();
+      return;
     }
-
+  
     const productoExistente = carrito.find(item => item.producto.id == id);
+  
     if (productoExistente) {
-        productoExistente.cantidad += cantidad;
+      productoExistente.cantidad += cantidad;
     } else {
-        carrito.push({ producto, cantidad });
-        event.preventDefault()
+      carrito.push({ producto, cantidad });
+      event.preventDefault();
     }
-
+  
     localStorage.setItem("carrito", JSON.stringify(carrito));
     totalProductos();
+  
     Swal.fire({
-        icon: "success",
-        title: "Agregado al Carrito",
-        showConfirmButton: false,
-        timer: 1000
+      icon: "success",
+      title: "Agregado al Carrito",
+      showConfirmButton: false,
+      timer: 1000
     });
+  
     renderCarrito();
     event.preventDefault();
-}
-
-
-
+  }
+  
 
 function totalProductos(){
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -123,102 +142,116 @@ function totalProductos(){
 }
 
 
-
-
 function renderCarrito() {
     const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    let contenidoHTML = `<table class="table">
-    <tbody id="tabla_carrito">`;   
-    for (const item of carrito){
-        contenidoHTML += `<tr>
-        <td><img src="${item.producto.img}" class="card-img-top" alt="${item.producto.nombre}" width="16"></td>
-        <td>${item.producto.nombre}</td>
-        <td>$${item.producto.precio}</td>
-        <td>x${item.cantidad}u</td>
-        <td><button class="btn btn-danger" id="eliminar-${item.producto.id}">x</button></td>
-        </tr>`;    
+    
+    let contenidoHTML = `
+      <table class="table">
+        <tbody id="tabla_carrito">
+    `;
+  
+    for (const item of carrito) {
+      contenidoHTML += `
+        <tr>
+          <td>
+            <img 
+              src="${item.producto.img}" 
+              class="card-img-top" 
+              alt="${item.producto.nombre}" 
+              width="16"
+            >
+          </td>
+          <td>${item.producto.nombre}</td>
+          <td>$${item.producto.precio}</td>
+          <td>x${item.cantidad}u</td>
+          <td>
+            <button 
+              class="btn btn-danger" 
+              id="eliminar-${item.producto.id}">
+              x
+            </button>
+          </td>
+        </tr>
+      `;
     }
-
-    contenidoHTML += `</tbody>
-    </table>`;
-
+  
+    contenidoHTML += `
+        </tbody>
+      </table>
+    `;
+  
     document.getElementById("contenido").innerHTML = contenidoHTML;
-
+  
     agregarEventosEliminar();
-}
+  }
+  
 
-
-
-
-function agregarEventosEliminar() {
+  function agregarEventosEliminar() {
     const botonesEliminar = document.querySelectorAll('button[id^="eliminar-"]');
+    
     botonesEliminar.forEach(boton => {
-        boton.addEventListener('click', (event) => {
-            const id = event.target.id.replace('eliminar-', '');
-            eliminarDelCarrito(id);
-        });
+      boton.addEventListener('click', (event) => {
+        const id = event.target.id.replace('eliminar-', '');
+        eliminarDelCarrito(id);
+      });
     });
-}
+  }
+  
 
 
-
-
-function eliminarDelCarrito(id) {
+  function eliminarDelCarrito(id) {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    
     carrito = carrito.filter(item => item.producto.id != id);
     localStorage.setItem("carrito", JSON.stringify(carrito));
+    
     renderCarrito();
     totalProductos();
+    
     Swal.fire({
-        icon: "success",
-        title: "Eliminado del Carrito",
-        showConfirmButton: false,
-        timer: 1000
+      icon: "success",
+      title: "Eliminado del Carrito",
+      showConfirmButton: false,
+      timer: 1000
     });
-}
-
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
+  }
+  
+  document.addEventListener('DOMContentLoaded', () => {
     renderCarrito();
     totalProductos();
-});
+  });
+  
 
 
+  const formCliente = document.getElementById('form-cliente');
 
-
-    const formCliente = document.getElementById('form-cliente');
-    formCliente.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-
-
-
-        const nombreApellido = document.getElementById('nombreApellido').value;
-        const dni = document.getElementById('dni').value;
-        const edad = document.getElementById('edad').value;
-        const domicilio = document.getElementById('domicilio').value;
-
-        if (!nombreApellido || !dni || !edad || !domicilio) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'No olvides completar todos los campos.',
-            });
-            return;
-        }
-
-
-        const cliente = new Cliente(nombreApellido, edad, domicilio, dni);
-        localStorage.setItem('cliente', JSON.stringify(cliente));
-
-        Swal.fire({
-            icon: 'success',
-            title: 'Datos Guardados',
-            text: 'Tus datos fueron guardados.',
-        });
+  formCliente.addEventListener('submit', (e) => {
+    e.preventDefault();
+  
+    const nombreApellido = document.getElementById('nombreApellido').value;
+    const dni = document.getElementById('dni').value;
+    const edad = document.getElementById('edad').value;
+    const domicilio = document.getElementById('domicilio').value;
+  
+    if (!nombreApellido || !dni || !edad || !domicilio) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No olvides completar todos los campos.',
+      });
+      return;
+    }
+  
+    const cliente = new Cliente(nombreApellido, edad, domicilio, dni);
+    localStorage.setItem('cliente', JSON.stringify(cliente));
+  
+    Swal.fire({
+      icon: 'success',
+      title: 'Datos Guardados',
+      text: 'Tus datos fueron guardados.',
     });
+  });
+  
 
 
 

@@ -1,34 +1,35 @@
 const productos = [
-    new Producto(1,"Fernet Branca",9000,"./img/fernet.png"),
-    new Producto(2,"Fernet Buhero",7500,"./img/buhero.png"),
-    new Producto(3,"Vodka Smirnoff",6000,"./img/smirnoff.png"),
-    new Producto(4,"Vodka Absolut",18000,"./img/absolut.png"),
-    new Producto(5,"Cerveza Quilmes",2000,"./img/quilmes.png"),
-    new Producto(6,"Cerveza Brahma",2100,"./img/brahma.png"),
-    new Producto(7,"Cerveza Stella Artois",2600,"./img/stella.png"),
-    new Producto(8,"Gancia",3200,"./img/gancia.png"),
-    new Producto(9,"Malibu",15000,"./img/malibu.png"),
-    new Producto(10,"Jaggermeister",19000,"./img/jagger.png"),
-    new Producto(11,"Campari",6000,"./img/campari.png"),
-    new Producto(12,"Jack Daniels Honey",45000,"./img/jack.png"),
-    new Producto(13,"Red Label",30000,"./img/redlabel.png"),
-    new Producto(14,"Johnnie Walker (blue label)",120000,"./img/bluelabel.png"),
-    new Producto(15,"Federio de Alvear",5800,"./img/fede.png"),
-    new Producto(16,"London",9000,"./img/london.png"),
-    new Producto(17,"Santa Filomena",3100,"./img/filomena.png"),
-    new Producto(18,"Cosecha Tardia",5800,"./img/cosecha.png"),
-    new Producto(19,"Termidor",1600,"./img/temineitor.png"),
-    new Producto(20,"Sidra 1888",5000,"./img/sidra.png"),
-    new Producto(21,"Coca Cola",2800,"./img/coca.png"),
-    new Producto(22,"Sprite",2800,"./img/sprite.png"),
-    new Producto(23,"Manaos Pomelo",1400,"./img/pomelo.png"),
-    new Producto(24,"Speed",1100,"./img/speed.png"),
+    new Producto(1,"Malibu",18750,"./img/malibu.png"),
+    new Producto(2,"Vodka Smirnoff",7100,"./img/smirnoff.png"),
+    new Producto(3,"Vodka Absolut",22000,"./img/absolut.png"),
+    new Producto(4,"Cerveza Quilmes",1900,"./img/quilmes.png"),
+    new Producto(5,"Cerveza Brahma",1900,"./img/brahma.png"),
+    new Producto(6,"Cerveza Stella Artois",1890,"./img/stella.png"),
+    new Producto(7,"Fernet Buhero",4500,"./img/buhero.png"),
+    new Producto(8,"Fernet Branca",9300,"./img/fernet.png"),
+    new Producto(9,"Coca Cola",3100,"./img/coca.png"),
+    new Producto(10,"Gancia",2350,"./img/gancia.png"),
+    new Producto(11,"Jaggermeister",26000,"./img/jagger.png"),
+    new Producto(12,"Campari",9000,"./img/campari.png"),
+    new Producto(13,"Jack Daniels Honey",77400,"./img/jack.png"),
+    new Producto(14,"Red Label",35000,"./img/redlabel.png"),
+    new Producto(15,"Johnnie Walker (blue label)",120000,"./img/bluelabel.png"),
+    new Producto(16,"Federio de Alvear",5800,"./img/fede.png"),
+    new Producto(17,"Cosecha Tardia",5800,"./img/cosecha.png"),
+    new Producto(18,"Termidor",1600,"./img/termidor.png"),
+    new Producto(19,"Sidra 1888",5000,"./img/sidra.png"),
+    new Producto(20,"London",9000,"./img/london.png"),
+    new Producto(21,"Baggio Multifruta",1700,"./img/baggio.png"),
+    new Producto(22,"Speed",1100,"./img/speed.png"),
+    new Producto(23,"Santa Filomena",3100,"./img/filomena.png"),
+    new Producto(24,"Sprite",2800,"./img/sprite.png"),
+
 ];
 const esMayor = localStorage.getItem("esMayor")
 if(!esMayor){
 Swal.fire({
     title: "IMPORTANTE!",
-    text: "Eres mayor de 18 años?",
+    text: "¿Sos mayor de 18 años?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -173,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Por favor, complete todos los campos.',
+                text: 'No olvides completar todos los campos.',
             });
             return;
         }
@@ -185,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         Swal.fire({
             icon: 'success',
             title: 'Datos Guardados',
-            text: 'Sus datos personales han sido guardados.',
+            text: 'Tus datos fueron guardados.',
         });
     });
 
@@ -198,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
             Swal.fire({
                 icon: 'warning',
                 title: 'Carrito vacío',
-                text: 'No hay productos en el carrito para comprar.',
+                text: 'No tenes productos en tu carrito.',
             });
             return;
         }
@@ -207,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!cliente) {
             Swal.fire({
                 title: 'Datos Personales',
-                text: 'Por favor, complete sus datos personales antes de continuar con la compra.',
+                text: 'Por favor, completá tus datos para poder continuar con la compra.',
                 icon: 'info',
                 confirmButtonText: 'Ir al formulario',
                 preConfirm: () => {
